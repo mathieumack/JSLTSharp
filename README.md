@@ -17,7 +17,7 @@ I've also created this package as the excellent [https://github.com/WorkMaze/JUS
 
 1. Add nuget package: 
 
-    Install-Package JSLTSharp
+> Install-Package JSLTSharp
 
 2. In your application, you must instanciate a new JsonTransform object, and call the method 'Transform' to transform your json: 
 
@@ -29,7 +29,7 @@ var input = @"{
     
 var transformation = @"{
         'resultField1': '$.field1->ToInteger()',
-        'resultField2': '$.field2->ToInteger()'
+        'resultField2': '$.field2'
     }";
 
 var transformEngine = new JsonTransform();
@@ -38,10 +38,10 @@ var result = transformEngine.Transform(input, transformation);
 
 result value :
 
-```c#
+```json
 {
-    'resultField1': 13246,
-    'resultField2': 1
+    "resultField1": 13246,
+    "resultField2": true
 }
 ```
 
@@ -50,18 +50,22 @@ In your transformation description, you can refers to fields by using a JsonPath
 
 Ex :
 ```json
-    
 {
     "resultField1": "$.field1->ToInteger()",
-    "resultField2": "$.field2->ToInteger()"
+    "resultField2": "$.field2"
 }
-
 ```
 $.field1 refers to to the property named field1 on the json input.
 
 :information_source: If you have to test your selector, you can use the online tool https://jsonpath.com/.
 
-## Embeded functions
+# Samples
+Here are some samples of transformations.
+Do not hesitate to check unit tests on the solution. It's a good way to check how transformations are tested.
+
+> In progress
+
+## Functions
 
 # Support / Contribute
 > If you have any questions, problems or suggestions, create an issue or fork the project and create a Pull Request.
