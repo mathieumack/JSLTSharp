@@ -1,4 +1,5 @@
 ﻿using JSLTSharp.JsonTransforms;
+using JSLTSharp.JsonTransforms.Abstractions;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Concurrent;
@@ -53,7 +54,7 @@ namespace JSLTSharp
                 ApplyTransformation(result, jsonContent);
             else if(result is JArray)
             {
-                ApplyTransformation((JArray)result[0], jsonContent);
+                ApplyTransformation(((JArray)result)[0], jsonContent);
             }
 
             return result;

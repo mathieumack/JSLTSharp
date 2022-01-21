@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace JSLTSharp.JsonTransforms.Transformations
+namespace JSLTSharp.JsonTransforms.EmbededFunctions
 {
     public class ToBooleanTransformOperation : ExistsTransformOperation
     {

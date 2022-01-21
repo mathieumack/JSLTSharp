@@ -1,5 +1,4 @@
 using FluentAssertions.Json;
-using JSLTSharp;
 using JSLTSharp.JsonTransforms.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -7,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace JSLTSharp.Tests
 {
-    public class BaseTestsClass
+    public abstract class BaseTestsClass
     {
         protected JsonTransform FlowFactory()
         {

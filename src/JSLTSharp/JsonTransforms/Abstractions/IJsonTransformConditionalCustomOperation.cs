@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-namespace JSLTSharp.JsonTransforms
+namespace JSLTSharp.JsonTransforms.Abstractions
 {
-    public interface IJsonTransformCustomOperation
+    public interface IJsonTransformConditionalCustomOperation
     {
         /// <summary>
         /// Name of the operation
@@ -16,6 +16,6 @@ namespace JSLTSharp.JsonTransforms
         /// <param name="dataSource">currentDataSource, can be used to execute search on it</param>
         /// <param name="objectToApplyTo">object to patch</param>
         /// <param name="parameters">parameters for the operation</param>
-        JToken Apply(JToken dataSource, JToken objectToApplyTo, IList<string> parameters);
+        bool Apply(JToken dataSource, JToken objectToApplyTo, IList<string> parameters);
     }
 }

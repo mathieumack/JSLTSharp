@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using JSLTSharp.JsonTransforms.Abstractions;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
-namespace JSLTSharp.JsonTransforms.Transformations
+namespace JSLTSharp.JsonTransforms.EmbededFunctions
 {
     public class IfNotEmptyConditionalKeyOperation : IJsonTransformConditionalCustomOperation
     {

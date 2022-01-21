@@ -63,7 +63,7 @@ $.field1 refers to to the property named field1 on the json input.
 Here are some samples of transformations.
 Do not hesitate to check unit tests on the solution. It's a good way to check how transformations are tested.
 
-> In progress
+> In progress. Do not hesitate to contribute ;)
 
 ## Functions
 

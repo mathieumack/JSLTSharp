@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 
-namespace JSLTSharp.JsonTransforms.Transformations
+namespace JSLTSharp.JsonTransforms.EmbededFunctions
 {
     public class IfIsNotEqualsConditionalKeyOperation : IfIsEqualsConditionalKeyOperation
     {

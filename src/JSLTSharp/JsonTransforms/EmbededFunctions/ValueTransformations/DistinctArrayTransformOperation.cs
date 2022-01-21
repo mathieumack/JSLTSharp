@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace JSLTSharp.JsonTransforms.Transformations.ValueTransformations
+namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
 {
     public class DistinctArrayTransformOperation : ExistsTransformOperation
     {

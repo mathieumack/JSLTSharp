@@ -1,9 +1,8 @@
-﻿using Newtonsoft.Json.Linq;
-using System;
+﻿using JSLTSharp.JsonTransforms.Abstractions;
+using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
-using System.Text;
 
-namespace JSLTSharp.JsonTransforms.Transformations.ValueTransformations
+namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
 {
     public class ToUpperTransformationOperation : IJsonTransformCustomOperation
     {

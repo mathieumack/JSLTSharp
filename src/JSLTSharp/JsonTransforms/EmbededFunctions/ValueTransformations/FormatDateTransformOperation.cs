@@ -1,8 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using JSLTSharp.JsonTransforms.Abstractions;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace JSLTSharp.JsonTransforms.Transformations
+namespace JSLTSharp.JsonTransforms.EmbededFunctions
 {
     public class FormatDateTransformOperation : IJsonTransformCustomOperation
     {
