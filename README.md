@@ -59,13 +59,18 @@ $.field1 refers to to the property named field1 on the json input.
 
 :information_source: If you have to test your selector, you can use the online tool https://jsonpath.com/.
 
-# Samples
-Here are some samples of transformations.
+# Create my own function
+
+The package can be extended by using your own functions. Code your own C# function, and register it on the service collection of your application. More details on the Wiki.
+
+# Documentation : I want more
+
 Do not hesitate to check unit tests on the solution. It's a good way to check how transformations are tested.
 
-> In progress. Do not hesitate to contribute ;)
+Also, to get more samples, go to the [Wiki](https://github.com/mathieumack/JSLTSharp/wiki). 
 
-## Functions
+Do not hesitate to contribute.
+
 
 # Support / Contribute
 > If you have any questions, problems or suggestions, create an issue or fork the project and create a Pull Request.
