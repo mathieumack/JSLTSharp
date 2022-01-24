@@ -13,13 +13,22 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
         /// <inheritdoc />
         public JToken Apply(JToken dataSource, JToken token, IList<string> parameters)
         {
-            if (token.Type != JTokenType.Date)
-                throw new InvalidOperationException($"Value must not be a date");
             if (parameters.Count != 1)
                 throw new InvalidOperationException($"You must provide only one parameter for function {OperationName}");
 
-            var date = token.Value<DateTime>();
-            return JToken.FromObject(date.ToString(parameters[0]));
+            if (token.Type.Equals(JTokenType.Date))
+            {
+                var date = token.Value<DateTime>();
+                return JToken.FromObject(date.ToString(parameters[0]));
+            }
+            else if(token.Type.Equals(JTokenType.String))
+            {
+                var date = token.Value<String>();
+                if(DateTime.TryParse(date, out DateTime convertedDate))
+                    return JToken.FromObject(convertedDate.ToString(parameters[0]));
+            }
+            
+            throw new InvalidOperationException($"Value {token.ToString()} is not a valid date");
         }
     }
 }
