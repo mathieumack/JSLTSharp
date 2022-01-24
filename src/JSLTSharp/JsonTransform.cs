@@ -25,6 +25,11 @@ namespace JSLTSharp
         {
         }
 
+        /// <summary>
+        /// Create the transformation engine with custom functions
+        /// </summary>
+/// <param name="conditionalOperations">List of custom function that returns a true/false result. Can be used for if/else if for ex.</param>
+/// <param name="customOperations">List of custom functions that apply a transformation on a json content. Convert to integer, ...</param>
         public JsonTransform(IEnumerable<IJsonTransformConditionalCustomOperation> conditionalOperations,
                                 IEnumerable<IJsonTransformCustomOperation> customOperations)
         {

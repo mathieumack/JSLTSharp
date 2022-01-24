@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace JSLTSharp.JsonTransforms.EmbededFunctions
+namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
 {
     public class FormatDateTransformOperation : IJsonTransformCustomOperation
     {

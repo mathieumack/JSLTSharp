@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JSLTSharp.JsonTransforms.EmbededFunctions
+namespace JSLTSharp.JsonTransforms.EmbededFunctions.ConditionalOperations
 {
     public class ExistsConditionalKeyOperation : IJsonTransformConditionalCustomOperation
     {

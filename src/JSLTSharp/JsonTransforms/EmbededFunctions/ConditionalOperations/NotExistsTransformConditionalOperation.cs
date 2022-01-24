@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace JSLTSharp.JsonTransforms.EmbededFunctions
+namespace JSLTSharp.JsonTransforms.EmbededFunctions.ConditionalOperations
 {
     public class NotExistsTransformConditionalOperation : ExistsConditionalKeyOperation
     {

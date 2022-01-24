@@ -1,17 +1,17 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using JSLTSharp.JsonTransforms.Abstractions;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace JSLTSharp.JsonTransforms.EmbededFunctions
+namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
 {
-    public class ToIntegerTransformOperation : ExistsTransformOperation
+    public class ToIntegerTransformOperation : IJsonTransformCustomOperation
     {
         /// <inheritdoc />
-        public override string OperationName => "tointeger";
+        public string OperationName => "tointeger";
 
         /// <inheritdoc />
-        public override JToken Apply(JToken dataSource, JToken token, IList<string> parameters)
+        public JToken Apply(JToken dataSource, JToken token, IList<string> parameters)
         {
             switch(token.Type)
             {

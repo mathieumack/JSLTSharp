@@ -13,13 +13,13 @@ namespace JSLTSharp.Tests.Transforms
         public void TestValidResult()
         {
             TestJsonTransformation(@"{
-                                        'start': 'exakis'
+                                        'start': 'sample'
                                     } ",
                                     @" {
-                                        'complete': '$.start->ConcatString(-nelite)'
+                                        'complete': '$.start->ConcatString(-value result)'
                                     }",
                                     @"{
-                                        'complete': 'exakis-nelite'
+                                        'complete': 'sample-value result'
                                     }");
         }
 
@@ -30,10 +30,10 @@ namespace JSLTSharp.Tests.Transforms
                                         'start': 123
                                     } ",
                                     @" {
-                                        'complete': '$.start->ConcatString(-nelite)'
+                                        'complete': '$.start->ConcatString(-value result)'
                                     }",
                                     @"{
-                                        'complete': '123-nelite'
+                                        'complete': '123-value result'
                                     }");
         }
 
@@ -44,10 +44,10 @@ namespace JSLTSharp.Tests.Transforms
                                         'start': null
                                     } ",
                                     @" {
-                                        'complete': '$.start->ConcatString(-nelite)'
+                                        'complete': '$.start->ConcatString(-value result)'
                                     }",
                                     @"{
-                                        'complete': '-nelite'
+                                        'complete': '-value result'
                                     }");
         }
 
@@ -55,13 +55,13 @@ namespace JSLTSharp.Tests.Transforms
         public void MissingParameter()
         {
             TestJsonTransformation(@"{
-                                        'start': 'exakis'
+                                        'start': 'sample'
                                     } ",
                                     @" {
                                         'complete': '$.start->ConcatString()'
                                     }",
                                     @"{
-                                        'complete': 'exakis'
+                                        'complete': 'sample'
                                     }");
         }
 
@@ -69,14 +69,14 @@ namespace JSLTSharp.Tests.Transforms
         public void MoreThanOneParameter()
         {
             TestJsonTransformation(@"{
-                                        'start': 'exakis',
-                                        'end': 'nelite'
+                                        'start': 'sample',
+                                        'end': 'value result'
                                     } ",
-                                    @" {
-                                        'complete': '->ConcatString($.start,-,$.end)'
-                                    }",
+@" {
+    'complete': '->ConcatString($.start,-,$.end)'
+}",
                                     @"{
-                                        'complete': 'exakis-nelite'
+                                        'complete': 'sample-value result'
                                     }");
         }
 
@@ -84,13 +84,13 @@ namespace JSLTSharp.Tests.Transforms
         public void MoreThanOneParameterMissingSourceToken()
         {
             TestJsonTransformation(@"{
-                                        'end': 'nelite'
+                                        'end': 'value result'
                                     } ",
                                     @" {
                                         'complete': '$.start->ConcatString(-,$.end)'
                                     }",
                                     @"{
-                                        'complete': '-nelite'
+                                        'complete': '-value result'
                                     }");
         }
 
@@ -99,14 +99,14 @@ namespace JSLTSharp.Tests.Transforms
         public void MoreThanOneParameterWithSourceToken()
         {
             TestJsonTransformation(@"{
-                                        'start': 'exakis',
-                                        'end': 'nelite'
+                                        'start': 'sample',
+                                        'end': 'value result'
                                     } ",
                                     @" {
                                         'complete': '$.start->ConcatString(-,$.end)'
                                     }",
                                     @"{
-                                        'complete': 'exakis-nelite'
+                                        'complete': 'sample-value result'
                                     }");
         }
 
@@ -115,14 +115,14 @@ namespace JSLTSharp.Tests.Transforms
         public void MoreThanOneParameterWithSourceTokenAndSameParameter()
         {
             TestJsonTransformation(@"{
-                                        'start': 'exakis',
-                                        'end': 'nelite'
+                                        'start': 'sample',
+                                        'end': 'value result'
                                     } ",
                                     @" {
                                         'complete': '$.start->ConcatString($.start,-,$.end)'
                                     }",
                                     @"{
-                                        'complete': 'exakisexakis-nelite'
+                                        'complete': 'samplesample-value result'
                                     }");
         }
 
@@ -131,14 +131,14 @@ namespace JSLTSharp.Tests.Transforms
         public void TokenMissingFromDataSource()
         {
             TestJsonTransformation(@"{
-                                        'start': 'exakis',
-                                        'end': 'nelite'
+                                        'start': 'sample',
+                                        'end': 'value result'
                                     } ",
                                     @" {
                                         'complete': '->ConcatString($.beginning,-,$.end)'
                                     }",
                                     @"{
-                                        'complete': '-nelite'
+                                        'complete': '-value result'
                                     }");
         }
 

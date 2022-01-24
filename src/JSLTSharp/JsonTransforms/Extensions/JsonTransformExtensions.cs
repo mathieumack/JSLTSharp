@@ -1,5 +1,5 @@
 ﻿using JSLTSharp.JsonTransforms.Abstractions;
-using JSLTSharp.JsonTransforms.EmbededFunctions;
+using JSLTSharp.JsonTransforms.EmbededFunctions.ConditionalOperations;
 using JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,12 +13,9 @@ namespace JSLTSharp.JsonTransforms.Extensions
         /// <param name="serviceCollection"></param>
         public static void RegisterJsonCustomTransformFunctions(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<IJsonTransformCustomOperation, ExistsTransformOperation>();
             serviceCollection.AddSingleton<IJsonTransformCustomOperation, FormatDateTransformOperation>();
-            serviceCollection.AddSingleton<IJsonTransformCustomOperation, NotExistsTransformOperation>();
             serviceCollection.AddSingleton<IJsonTransformCustomOperation, ToBooleanTransformOperation>();
             serviceCollection.AddSingleton<IJsonTransformCustomOperation, ToIntegerTransformOperation>();
-
             serviceCollection.AddSingleton<IJsonTransformCustomOperation, ConcatStringTransformationOperation>();
             serviceCollection.AddSingleton<IJsonTransformCustomOperation, DistinctArrayTransformOperation>();
             serviceCollection.AddSingleton<IJsonTransformCustomOperation, ToUpperTransformationOperation>();

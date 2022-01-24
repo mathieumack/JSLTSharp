@@ -161,5 +161,33 @@ namespace JSLTSharp.Tests.Transforms
                                         'bool': false
                                     }");
         }
+
+        [TestMethod]
+        public void TestBoolean_IntToTrue()
+        {
+            TestJsonTransformation(@"{
+                                        'bool': 1
+                                    }",
+                                    @"{
+                                        'bool': '$.bool->ToBoolean()'
+                                    }",
+                                    @"{
+                                        'bool': true
+                                    }");
+        }
+
+        [TestMethod]
+        public void TestBoolean_IntToFalse()
+        {
+            TestJsonTransformation(@"{
+                                        'bool': 0
+                                    }",
+                                    @"{
+                                        'bool': '$.bool->ToBoolean()'
+                                    }",
+                                    @"{
+                                        'bool': false
+                                    }");
+        }
     }
 }
