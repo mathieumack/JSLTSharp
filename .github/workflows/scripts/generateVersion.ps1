@@ -1,12 +1,11 @@
 param(
     [String] $query,
     [String] $skip = 0,
-    [String] $take = 1,
-    [String] $versionPrefix
+    [String] $take = 1
 )
 $response = Invoke-RestMethod -Uri "https://api-v2v3search-0.nuget.org/query?q=$query&skip=$skip&take=$take"
 #write-host $response.data[0].versions
-$lastVersion = "1.0.0" + $versionPrefix
+$lastVersion = "1.0.0"
 if ($response.data.Count -eq 1)
 {
     # Package already founded :
@@ -20,7 +19,7 @@ if ($response.data.Count -eq 1)
     write-host "    Revision:" $versionSplited[2]
 
     # Calculate new version :
-    $lastVersion = $versionSplited[0] + "." + ([int]$versionSplited[1] + 1) + ".0" + $versionPrefix
+    $lastVersion = $versionSplited[0] + "." + ([int]$versionSplited[1] + 1) + ".0"
 }
 
 $versionSplited = $lastVersion.Split(".")
