@@ -8,7 +8,11 @@ namespace JSLTSharp.Tests
 {
     public abstract class BaseTestsClass
     {
-        protected JsonTransform FlowFactory()
+        /// <summary>
+        /// Initialize a new service collection environment and create a new JsonTransform object
+        /// </summary>
+        /// <returns></returns>
+        protected JsonTransform ServiceCollectionInitializer()
         {
             var serviceCollection = new ServiceCollection();
 
@@ -23,9 +27,15 @@ namespace JSLTSharp.Tests
             return serviceProvider.GetRequiredService<JsonTransform>();
         }
 
+        /// <summary>
+        /// Shared unit test to test the transformation of a json content
+        /// </summary>
+        /// <param name="jsonContent"></param>
+        /// <param name="transformation"></param>
+        /// <param name="expected"></param>
         public void TestJsonTransformation(string jsonContent, string transformation, string expected)
         {
-            var flow = FlowFactory();
+            var flow = ServiceCollectionInitializer();
 
             var result = flow.Transform(jsonContent,
                                         transformation);
