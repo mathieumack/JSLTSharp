@@ -46,10 +46,7 @@ jobs:
         dotnet build --configuration Release --no-restore -p:FileVersion=${{ steps.generateVersionStep.outputs.BUILD_VERSION }} /p:Version=${{ steps.generateVersionStep.outputs.BUILD_VERSION }}${{ steps.generateVersionPrefixStep.outputs.BUILD_VERSION_PREFIX }}
       working-directory: src
     - name: End Sonar scan
-      run: dotnet sonarscanner end
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
       working-directory: src
     - name: Launch unit tests
       run: dotnet test --configuration Release --no-build --verbosity normal
