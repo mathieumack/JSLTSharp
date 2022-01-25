@@ -7,7 +7,7 @@ I've also created this package as the excellent [https://github.com/WorkMaze/JUS
 ==========
 
 # IC
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=github-JSLTSharp&metric=alert_status)](https://sonarcloud.io/dashboard?id=github-JSLTSharp)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mathieumack_JSLTSharp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mathieumack_JSLTSharp)
 [![Build status](https://dev.azure.com/mackmathieu/Github/_apis/build/status/JSLTSharp)](https://dev.azure.com/mackmathieu/Github/_build/latest?definitionId=27)
 [![NuGet package](https://buildstats.info/nuget/JSLTSharp?includePreReleases=true)](https://nuget.org/packages/JSLTSharp)
 
