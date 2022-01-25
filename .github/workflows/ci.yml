@@ -20,8 +20,23 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       working-directory: src
+    - name: Generate package version
+      id: generateVersionStep
+      shell: pwsh
+      run: |
+        $version = .\generateVersion.ps1 -query ${{ secrets.NUGETPACKAGEIDENTIFIER }}
+        echo "::set-output name=BUILD_VERSION::$version"
+      working-directory: .github/workflows/scripts
+    - name: Generate package version prefix
+      id: generateVersionPrefixStep
+      shell: pwsh
+      run: |
+        if('${{ github.ref }}' -eq 'ref/head/main')
+          echo "::set-output name=BUILD_VERSION_PREFIX::"
+        else
+          echo "::set-output name=BUILD_VERSION_PREFIX::-preview-${{ github.run_number }}"
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release --no-restore -p:FileVersion=${{ steps.generateVersionStep.outputs.BUILD_VERSION }} /p:Version=${{ steps.generateVersionStep.outputs.BUILD_VERSION }}${{ steps.generateVersionPrefixStep.outputs.BUILD_VERSION_PREFIX }}
       working-directory: src
     - name: Test
       run: dotnet test --no-build --verbosity normal
