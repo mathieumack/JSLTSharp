@@ -34,32 +34,11 @@ jobs:
       run: |
         if('${{ github.ref }}' -eq 'ref/head/main') { echo "::set-output name=BUILD_VERSION_PREFIX::" }
         else { echo "::set-output name=BUILD_VERSION_PREFIX::-preview-${{ github.run_number }}" }
-    # Start Sonarcloud steps :
-    - name: Set up JDK 11
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.11
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-    - name: Cache SonarCloud packages
-      uses: actions/cache@v1
-      with:
-        path: ~\sonar\cache
-        key: ${{ runner.os }}-sonar
-        restore-keys: ${{ runner.os }}-sonar
-    - name: Cache SonarCloud scanner
-      id: cache-sonar-scanner
-      uses: actions/cache@v1
-      with:
-        path: .\.sonar\scanner
-        key: ${{ runner.os }}-sonar-scanner
-        restore-keys: ${{ runner.os }}-sonar-scanner
     # Build solution (and package nuget) 
     - name: Begin Sonar scan
       run: |
         dotnet tool install --global dotnet-sonarscanner
-        dotnet sonarscanner begin /o:ngruson /k:mathieumack /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io
+        dotnet sonarscanner begin /k:mathieumack_JSLTSharp /o:mathieumack /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io
     - name: Build and analyze
       shell: pwsh
       run: |
