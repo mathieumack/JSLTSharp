@@ -33,9 +33,12 @@ jobs:
       run: |
         if('${{ github.ref }}' -eq 'ref/head/main') { echo "::set-output name=BUILD_VERSION_PREFIX::" }
         else { echo "::set-output name=BUILD_VERSION_PREFIX::-preview-${{ github.run_number }}" }
-    - name: Build
+    - name: Build solution
       run: dotnet build --configuration Release --no-restore -p:FileVersion=${{ steps.generateVersionStep.outputs.BUILD_VERSION }} /p:Version=${{ steps.generateVersionStep.outputs.BUILD_VERSION }}${{ steps.generateVersionPrefixStep.outputs.BUILD_VERSION_PREFIX }}
       working-directory: src
-    - name: Test
+    - name: Launch unit tests
       run: dotnet test --configuration Release --no-build --verbosity normal
+      working-directory: src
+    - name: Push Package to NuGet.org
+      run: dotnet nuget push **.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json
       working-directory: src
