@@ -25,7 +25,7 @@ jobs:
       shell: pwsh
       run: |
         $version = .\generateVersion.ps1 -query ${{ secrets.NUGETPACKAGEIDENTIFIER }}
-        echo "::set-output BUILD_VERSION::$version"
+        echo "::set-output name=BUILD_VERSION::$version"
       working-directory: .github/workflows/scripts
     - name: Generate package version prefix
       id: generateVersionPrefixStep
@@ -33,11 +33,11 @@ jobs:
       run: |
         if('${{ github.ref }} -eq 'ref/head/main')
         {
-          echo "::set-output BUILD_VERSION_PREFIX::-preview-${{ github.run_number }}"
+          echo "::set-output name=BUILD_VERSION_PREFIX::-preview-${{ github.run_number }}"
         }
         else
         {
-          echo "::set-output BUILD_VERSION_PREFIX::"
+          echo "::set-output name=BUILD_VERSION_PREFIX::"
         }
     - name: Build
       run: dotnet build --configuration Release --no-restore -p:FileVersion=${{ steps.generateVersionStep.outputs.BUILD_VERSION }} /p:Version=${{ steps.generateVersionStep.outputs.BUILD_VERSION }}${{ steps.generateVersionPrefixStep.outputs.BUILD_VERSION_PREFIX }}
