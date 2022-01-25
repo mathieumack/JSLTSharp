@@ -38,7 +38,7 @@ jobs:
     - name: Begin Sonar scan
       run: |
         dotnet tool install --global dotnet-sonarscanner
-        dotnet sonarscanner begin /k:mathieumack_JSLTSharp /o:mathieumack /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io /d:sonar.coverageReportPaths="../coverage.opencover.xml"
+        dotnet sonarscanner begin /k:mathieumack_JSLTSharp /o:mathieumack /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io /d:sonar.coverageReportPaths="sonarqubecoverage.opencover.xml"
       working-directory: src
     - name: Build and analyze
       shell: pwsh
@@ -46,7 +46,7 @@ jobs:
         dotnet build --configuration Release --no-restore -p:FileVersion=${{ steps.generateVersionStep.outputs.BUILD_VERSION }} /p:Version=${{ steps.generateVersionStep.outputs.BUILD_VERSION }}${{ steps.generateVersionPrefixStep.outputs.BUILD_VERSION_PREFIX }}
       working-directory: src
     - name: Launch unit tests
-      run: dotnet test --configuration Release --no-build --verbosity normal /p:CollectCoverage=true  /p:CoverletOutputFormat=opencover --collect:"Code Coverage" /p:CoverletOutput="../coverletoutput"
+      run: dotnet test --configuration Release --no-build --verbosity normal /p:CollectCoverage=true  /p:CoverletOutputFormat=opencover --collect:"Code Coverage" /p:CoverletOutput="../sonarqubecoverage"
       working-directory: src
     - name: End Sonar scan
       run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
