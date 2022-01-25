@@ -45,13 +45,13 @@ jobs:
       run: |
         dotnet build --configuration Release --no-restore -p:FileVersion=${{ steps.generateVersionStep.outputs.BUILD_VERSION }} /p:Version=${{ steps.generateVersionStep.outputs.BUILD_VERSION }}${{ steps.generateVersionPrefixStep.outputs.BUILD_VERSION_PREFIX }}
       working-directory: src
+    - name: Launch unit tests
+      run: dotnet test --configuration Release --no-build --verbosity normal /p:CollectCoverage=true  /p:CoverletOutputFormat=opencover --collect:"Code Coverage" /p:CoverletOutput="../coverletoutput"
+      working-directory: src
     - name: End Sonar scan
-      run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+      run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.cs.opencover.reportsPaths="coverage.opencover.xml" /d:sonar.coverage.exclusions="**Tests*.cs"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      working-directory: src
-    - name: Launch unit tests
-      run: dotnet test --configuration Release --no-build --verbosity normal
       working-directory: src
     - name: Push Package to NuGet.org
       run: dotnet nuget push **.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json
