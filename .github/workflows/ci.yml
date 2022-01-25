@@ -24,13 +24,13 @@ jobs:
       shell: pwsh
       run: |
         $version = .\generateVersion.ps1 -query ${{ secrets.NUGETPACKAGEIDENTIFIER }}
-        echo "BUILD_VERSION=$version" >> $GITHUB_ENV
+        echo "BUILD_VERSION=$version" >> $env:$GITHUB_ENV
       working-directory: .github/workflows/scripts
     - name: Generate package version prefix
       if: github.ref != 'ref/head/main'
       shell: pwsh
       run: |
-        echo "BUILD_VERSION_PREFIX=-preview-${{ github.run_number }}" >> $GITHUB_ENV
+        echo "BUILD_VERSION_PREFIX=-preview-${{ github.run_number }}" >> $env:$GITHUB_ENV
     - name: Build
       run: dotnet build --no-restore -p:FileVersion=${{ env.BUILD_VERSION }} /p:Version=${{ env.BUILD_VERSION }}${{ env.BUILD_VERSION_PREFIX }}
       working-directory: src
