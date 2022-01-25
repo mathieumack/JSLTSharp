@@ -21,6 +21,12 @@ jobs:
       run: dotnet restore
       working-directory: src
     # Generate package version :
+    - name: Generate package version
+      id: generateVersionStep
+      shell: pwsh
+      run: |
+        $version = .\generateVersion.ps1 -query ${{ secrets.NUGETPACKAGEIDENTIFIER }}
+        echo "::set-output name=BUILD_VERSION::$version"
     - name: Generate package version prefix
       id: generateVersionPrefixStep
       shell: pwsh
