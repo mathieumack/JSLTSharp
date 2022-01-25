@@ -1,8 +1,16 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
+	  <ProjectGuid>{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}</ProjectGuid>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>MACK Mathieu</Authors>
+    <Copyright>Copyright (c) MACK Mathieu</Copyright>
+    <PackageProjectUrl>https://github.com/mathieumack/JSLTSharp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mathieumack/JSLTSharp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>

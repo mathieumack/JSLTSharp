@@ -80,7 +80,7 @@ namespace JSLTSharp
             switch (transformation.Type)
             {
                 case JTokenType.Object:
-                    var currentObject = transformation as JObject;
+                    var currentObject = (JObject)transformation;
                     var children = currentObject.Properties().ToList();
                     foreach (var child in children)
                     {
