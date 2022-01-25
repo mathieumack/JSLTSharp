@@ -27,6 +27,7 @@ jobs:
       run: |
         $version = .\generateVersion.ps1 -query ${{ secrets.NUGETPACKAGEIDENTIFIER }}
         echo "::set-output name=BUILD_VERSION::$version"
+      working-directory: .github/workflows/scripts
     - name: Generate package version prefix
       id: generateVersionPrefixStep
       shell: pwsh
