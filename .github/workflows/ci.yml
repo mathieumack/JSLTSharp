@@ -31,7 +31,7 @@ jobs:
       id: generateVersionPrefixStep
       shell: pwsh
       run: |
-        if('${{ github.ref }} -eq 'ref/head/main')
+        if('${{ github.ref }}' -eq 'ref/head/main')
         {
           echo "::set-output name=BUILD_VERSION_PREFIX::-preview-${{ github.run_number }}"
         }
