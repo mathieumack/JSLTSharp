@@ -38,7 +38,7 @@ jobs:
     - name: Begin Sonar scan
       run: |
         dotnet tool install --global dotnet-sonarscanner
-        dotnet sonarscanner begin /k:mathieumack_JSLTSharp /o:mathieumack /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io /d:sonar.coverageReportPaths="sonarqubecoverage.opencover.xml"
+        dotnet sonarscanner begin /k:mathieumack_JSLTSharp /o:mathieumack /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io /d:sonar.cs.opencover.reportsPaths="sonarqubecoverage.opencover.xml"
       working-directory: src
     - name: Build and analyze
       shell: pwsh
