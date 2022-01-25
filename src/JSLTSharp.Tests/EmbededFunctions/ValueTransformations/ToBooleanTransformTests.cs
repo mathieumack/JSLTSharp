@@ -163,7 +163,7 @@ namespace JSLTSharp.Tests.Transforms
         }
 
         [TestMethod]
-        public void TestBoolean_IntToTrue()
+        public void TestBoolean_IntToNull()
         {
             TestJsonTransformation(@"{
                                         'bool': 1
@@ -172,21 +172,22 @@ namespace JSLTSharp.Tests.Transforms
                                         'bool': '$.bool->ToBoolean()'
                                     }",
                                     @"{
-                                        'bool': true
+                                        'bool': null
                                     }");
         }
 
+
         [TestMethod]
-        public void TestBoolean_IntToFalse()
+        public void TestBoolean_IntToTrue()
         {
             TestJsonTransformation(@"{
-                                        'bool': 0
+                                        'bool': 1
                                     }",
                                     @"{
-                                        'bool': '$.bool->ToBoolean()'
+                                        'bool': '$.bool->ToBoolean(true)'
                                     }",
                                     @"{
-                                        'bool': false
+                                        'bool': true
                                     }");
         }
     }

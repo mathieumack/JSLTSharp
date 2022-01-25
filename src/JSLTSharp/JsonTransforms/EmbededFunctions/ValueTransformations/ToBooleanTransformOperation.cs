@@ -17,10 +17,9 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
 
             if (token.Type == JTokenType.Boolean)
                 return token;
-
-            if (token.Type == JTokenType.String && bool.TryParse(token.Value<string>().ToLower().Trim(), out fieldValue))
+            else if (bool.TryParse(token.ToString().ToLower().Trim(), out fieldValue))
                 return JValue.FromObject(fieldValue);
-                
+
             if (parameters.Count == 1 && bool.TryParse(parameters[0].ToLower().Trim(), out defaultValue))
                 return JValue.FromObject(defaultValue);
                 
