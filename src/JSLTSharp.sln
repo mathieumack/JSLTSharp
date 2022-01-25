@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSLTSharp", "JSLTSharp\JSLTSharp.csproj", "{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JSLTSharp.Tests", "JSLTSharp.Tests\JSLTSharp.Tests.csproj", "{1CCEF5E7-291C-4F82-A92A-060B80F73941}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CCEF5E7-291C-4F82-A92A-060B80F73941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CCEF5E7-291C-4F82-A92A-060B80F73941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CCEF5E7-291C-4F82-A92A-060B80F73941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CCEF5E7-291C-4F82-A92A-060B80F73941}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0D33C736-8D83-4241-B2FB-A1200E455792}
+	EndGlobalSection
+EndGlobal
