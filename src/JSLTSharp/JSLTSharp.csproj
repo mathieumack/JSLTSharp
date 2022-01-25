@@ -9,6 +9,7 @@
     <PackageProjectUrl>https://github.com/mathieumack/JSLTSharp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mathieumack/JSLTSharp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+	<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
