@@ -20,8 +20,14 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
       working-directory: src
+    - name: Generate package version
+      shell: pwsh
+      run: |
+        $version = .\generateVersion.ps1 -query ${{ secrets.NUGETPACKAGEIDENTIFIER }} -versionPrefix "-preview-${{ env.GITHUB_RUN_NUMBER }}"
+        echo "BUILD_VERSION=$version"
+      working-directory: .github/workflows/scripts
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore /p:Version=${{ env.BUILD_VERSION }}
       working-directory: src
     - name: Test
       run: dotnet test --no-build --verbosity normal
