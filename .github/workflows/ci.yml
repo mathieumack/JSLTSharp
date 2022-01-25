@@ -39,6 +39,7 @@ jobs:
       run: |
         dotnet tool install --global dotnet-sonarscanner
         dotnet sonarscanner begin /k:mathieumack_JSLTSharp /o:mathieumack /d:sonar.login=${{ secrets.SONAR_TOKEN }} /d:sonar.host.url=https://sonarcloud.io
+      working-directory: src
     - name: Build and analyze
       shell: pwsh
       run: |
@@ -46,6 +47,7 @@ jobs:
       working-directory: src
     - name: End Sonar scan
       run: dotnet sonarscanner end /d:sonar.login=${{ secrets.SONAR_TOKEN }}
+      working-directory: src
     - name: Launch unit tests
       run: dotnet test --configuration Release --no-build --verbosity normal
       working-directory: src
