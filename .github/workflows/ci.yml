@@ -32,7 +32,7 @@ jobs:
       run: |
         echo "BUILD_VERSION_PREFIX=-preview-${{ github.run_number }}" >> $GITHUB_ENV
     - name: Build
-      run: dotnet build --no-restore -p:FileVersion=$($Env:BUILD_VERSION) /p:Version=$($Env:BUILD_VERSION)$($Env:BUILD_VERSION_PREFIX)
+      run: dotnet build --configuration Release --no-restore -p:FileVersion=${{ env.BUILD_VERSION }} /p:Version=${{ env.BUILD_VERSION }}${{ env.BUILD_VERSION_PREFIX }}
       working-directory: src
     - name: Test
       run: dotnet test --no-build --verbosity normal
