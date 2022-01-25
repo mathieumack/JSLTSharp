@@ -12,15 +12,12 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
         /// <inheritdoc />
         public JToken Apply(JToken dataSource, JToken token, IList<string> parameters)
         {
-            var fieldValue = false;
-            var defaultValue = false;
-
             if (token.Type == JTokenType.Boolean)
                 return token;
-            else if (bool.TryParse(token.ToString().ToLower().Trim(), out fieldValue))
+            else if (bool.TryParse(token.ToString().ToLower().Trim(), out bool fieldValue))
                 return JValue.FromObject(fieldValue);
 
-            if (parameters.Count == 1 && bool.TryParse(parameters[0].ToLower().Trim(), out defaultValue))
+            if (parameters.Count == 1 && bool.TryParse(parameters[0].ToLower().Trim(), out bool defaultValue))
                 return JValue.FromObject(defaultValue);
                 
             return JValue.CreateNull();
