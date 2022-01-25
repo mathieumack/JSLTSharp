@@ -21,18 +21,26 @@ jobs:
       run: dotnet restore
       working-directory: src
     - name: Generate package version
+      id: generateVersionStep
       shell: pwsh
       run: |
         $version = .\generateVersion.ps1 -query ${{ secrets.NUGETPACKAGEIDENTIFIER }}
-        echo "BUILD_VERSION=$version" >> $GITHUB_ENV
+        echo "::set-output BUILD_VERSION::$version"
       working-directory: .github/workflows/scripts
     - name: Generate package version prefix
-      if: github.ref != 'ref/head/main'
+      id: generateVersionPrefixStep
       shell: pwsh
       run: |
-        echo "BUILD_VERSION_PREFIX=-preview-${{ github.run_number }}" >> $GITHUB_ENV
+        if('${{ github.ref }} -eq 'ref/head/main')
+        {
+          echo "::set-output BUILD_VERSION_PREFIX::-preview-${{ github.run_number }}"
+        }
+        else
+        {
+          echo "::set-output BUILD_VERSION_PREFIX::"
+        }
     - name: Build
-      run: dotnet build --configuration Release --no-restore -p:FileVersion=${{ env.BUILD_VERSION }} /p:Version=${{ env.BUILD_VERSION }}${{ env.BUILD_VERSION_PREFIX }}
+      run: dotnet build --configuration Release --no-restore -p:FileVersion=${{ steps.generateVersionStep.outputs.BUILD_VERSION }} /p:Version=${{ steps.generateVersionStep.outputs.BUILD_VERSION }}${{ steps.generateVersionPrefixStep.outputs.BUILD_VERSION_PREFIX }}
       working-directory: src
     - name: Test
       run: dotnet test --no-build --verbosity normal
