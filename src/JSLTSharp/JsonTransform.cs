@@ -28,8 +28,8 @@ namespace JSLTSharp
         /// <summary>
         /// Create the transformation engine with custom functions
         /// </summary>
-/// <param name="conditionalOperations">List of custom function that returns a true/false result. Can be used for if/else if for ex.</param>
-/// <param name="customOperations">List of custom functions that apply a transformation on a json content. Convert to integer, ...</param>
+        /// <param name="conditionalOperations">List of custom function that returns a true/false result. Can be used for if/else if for ex.</param>
+        /// <param name="customOperations">List of custom functions that apply a transformation on a json content. Convert to integer, ...</param>
         public JsonTransform(IEnumerable<IJsonTransformConditionalCustomOperation> conditionalOperations,
                                 IEnumerable<IJsonTransformCustomOperation> customOperations)
         {
@@ -92,7 +92,7 @@ namespace JSLTSharp
                     if (currentProp.Name.StartsWith("->if(", StringComparison.InvariantCultureIgnoreCase))
                     {
                         // if methods. All booleans must be true to returns content :
-                        var functions = currentProp.Name.Substring(5, currentProp.Name.Length - 6);
+                        var functions = currentProp.Name[5..^1];
                         var splitFunctions = functions.Split("->", StringSplitOptions.RemoveEmptyEntries);
                         bool functionsSuccess = true;
                         for (int i = 0; i < splitFunctions.Length && functionsSuccess; i++)
@@ -101,7 +101,7 @@ namespace JSLTSharp
                             if (functionI == -1 || !splitFunctions[i].EndsWith(')'))
                                 throw new InvalidOperationException($"Function {splitFunctions[i]} is not correctly formatted");
 
-                            var functionName = splitFunctions[i].Substring(0, functionI);
+                            var functionName = splitFunctions[i][..functionI];
                             var functionParameters = splitFunctions[i].Substring(functionI + 1, splitFunctions[i].Length - functionI - 2);
 
                             List<string> parameterValues = functionParameters.Split(',').ToList();
@@ -131,7 +131,7 @@ namespace JSLTSharp
                             {
                                 // We check this if condition :
                                 currentProp = elseIfProperties[pi];
-                                functions = currentProp.Name.Substring(9, currentProp.Name.Length - 10);
+                                functions = currentProp.Name[9..^1];
                                 if (string.IsNullOrWhiteSpace(functions))
                                     functionsSuccess = true;
                                 else
@@ -144,7 +144,7 @@ namespace JSLTSharp
                                         if (functionI == -1 || !splitFunctions[i].EndsWith(')'))
                                             throw new InvalidOperationException($"Function {splitFunctions[i]} is not correctly formatted");
 
-                                        var functionName = splitFunctions[i].Substring(0, functionI);
+                                        var functionName = splitFunctions[i][..functionI];
                                         var functionParameters = splitFunctions[i].Substring(functionI + 1, splitFunctions[i].Length - functionI - 2);
 
                                         List<string> parameterValues = functionParameters.Split(',').ToList();
@@ -190,8 +190,6 @@ namespace JSLTSharp
                         if (functionI == -1 || !split[1].EndsWith(')'))
                             throw new InvalidOperationException($"Loop function {split[1]} is not correctly formatted");
 
-                        var contextEntry = split[1].Substring(functionI + 1, split[1].Length - functionI - 2);
-
                         // Array elements :
                         JToken arrayToken = null;
                         if (fieldName.EndsWith("]"))
@@ -217,7 +215,7 @@ namespace JSLTSharp
                                 if (functionJ == -1 || !split[i].EndsWith(')'))
                                     throw new InvalidOperationException($"Loop function {split[i]} is not correctly formatted");
 
-                                var functionName = split[i].Substring(0, functionJ);
+                                var functionName = split[i][..functionJ];
                                 var functionParameters = split[i].Substring(functionJ + 1, split[i].Length - functionJ - 2);
 
                                 List<string> parameterValues = functionParameters.Split(',').ToList();
@@ -329,13 +327,11 @@ namespace JSLTSharp
                         bool successOperation = true;
                         for (int i = 1; i < split.Length && successOperation; i++)
                         {
-                            var function = split[i];
-
                             var functionI = split[i].IndexOf('(');
                             if (functionI == -1 || !split[i].EndsWith(')'))
                                 throw new InvalidOperationException($"Loop function {split[i]} is not correctly formatted");
 
-                            var functionName = split[i].Substring(0, functionI);
+                            var functionName = split[i][..functionI];
                             var functionParameters = split[i].Substring(functionI + 1, split[i].Length - functionI - 2);
 
                             List<string> parameterValues = functionParameters.Split(',').ToList();
@@ -407,7 +403,7 @@ namespace JSLTSharp
                 if (functionI == -1 || !split[1].EndsWith(')'))
                     throw new InvalidOperationException($"Loop function {split[i]} is not correctly formatted");
 
-                var functionName = split[i].Substring(0, functionI);
+                var functionName = split[i][..functionI];
                 var functionParameters = split[i].Substring(functionI + 1, split[i].Length - functionI - 2);
 
                 List<string> parameterValues = functionParameters.Split(',').ToList();

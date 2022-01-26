@@ -10,11 +10,11 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
         public string OperationName => "toboolean";
 
         /// <inheritdoc />
-        public JToken Apply(JToken dataSource, JToken token, IList<string> parameters)
+        public JToken Apply(JToken dataSource, JToken objectToApplyTo, IList<string> parameters)
         {
-            if (token.Type == JTokenType.Boolean)
-                return token;
-            else if (bool.TryParse(token.ToString().ToLower().Trim(), out bool fieldValue))
+            if (objectToApplyTo.Type == JTokenType.Boolean)
+                return objectToApplyTo;
+            else if (bool.TryParse(objectToApplyTo.ToString().ToLower().Trim(), out bool fieldValue))
                 return JValue.FromObject(fieldValue);
 
             if (parameters.Count == 1 && bool.TryParse(parameters[0].ToLower().Trim(), out bool defaultValue))

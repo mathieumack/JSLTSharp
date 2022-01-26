@@ -10,12 +10,12 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
         public virtual string OperationName => "ToUpper";
 
         /// <inheritdoc />
-        public virtual JToken Apply(JToken dataSource, JToken token, IList<string> parameters)
+        public virtual JToken Apply(JToken dataSource, JToken objectToApplyTo, IList<string> parameters)
         {
-            if (token.Type != JTokenType.String)
-                return token;
+            if (objectToApplyTo.Type != JTokenType.String)
+                return objectToApplyTo;
 
-            return token.ToString().ToUpperInvariant();
+            return objectToApplyTo.ToString().ToUpperInvariant();
         }
     }
 }

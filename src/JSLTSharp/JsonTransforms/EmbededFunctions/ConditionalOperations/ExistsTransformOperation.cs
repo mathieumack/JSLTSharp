@@ -12,7 +12,7 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ConditionalOperations
         public virtual string OperationName => "exists";
 
         /// <inheritdoc />
-        public virtual bool Apply(JToken dataSource, JToken token, IList<string> parameters)
+        public virtual bool Apply(JToken dataSource, JToken objectToApplyTo, IList<string> parameters)
         {
             if (parameters.Count != 1)
                 throw new InvalidOperationException($"You must provide one select as parameter for function {OperationName}");
