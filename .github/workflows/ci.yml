@@ -53,6 +53,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       working-directory: src
+    # Publish a new version only for new features :
     - name: Push Package to NuGet.org
+      if: startswith(github.ref,'refs/heads/feature') || startswith(github.head_ref,'refs/heads/feature')
       run: dotnet nuget push **.nupkg -k ${{ secrets.NUGETAPIKEY }} -s https://api.nuget.org/v3/index.json
       working-directory: src
