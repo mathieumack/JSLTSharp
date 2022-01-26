@@ -11,24 +11,24 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
         public string OperationName => "tointeger";
 
         /// <inheritdoc />
-        public JToken Apply(JToken dataSource, JToken token, IList<string> parameters)
+        public JToken Apply(JToken dataSource, JToken objectToApplyTo, IList<string> parameters)
         {
-            switch(token.Type)
+            switch(objectToApplyTo.Type)
             {
                 case JTokenType.String:
-                    var stringValue =  token.Value<string>();
+                    var stringValue =  objectToApplyTo.Value<string>();
                     if (int.TryParse(stringValue, out int convertedString))
                         return JValue.FromObject(convertedString);
                     else
                         return JValue.CreateNull();
                 case JTokenType.Date:
-                    return JValue.FromObject(token.Value<DateTime>().Ticks);
+                    return JValue.FromObject(objectToApplyTo.Value<DateTime>().Ticks);
                 case JTokenType.Integer:
-                    return JValue.FromObject(token.Value<int>());
+                    return JValue.FromObject(objectToApplyTo.Value<int>());
                 case JTokenType.Float:
-                    return JValue.FromObject((int)token.Value<float>());
+                    return JValue.FromObject((int)objectToApplyTo.Value<float>());
                 case JTokenType.Boolean:
-                    var boolValue = token.Value<bool>();
+                    var boolValue = objectToApplyTo.Value<bool>();
                     return JValue.FromObject(boolValue ? 1 : 0);
                 default:
                     return JValue.CreateNull();

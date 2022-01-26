@@ -12,12 +12,12 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ConditionalOperations
         public virtual string OperationName => "notnull";
 
         /// <inheritdoc />
-        public virtual bool Apply(JToken dataSource, JToken token, IList<string> parameters)
+        public virtual bool Apply(JToken dataSource, JToken objectToApplyTo, IList<string> parameters)
         {
             if (parameters.Count != 1)
                 throw new InvalidOperationException($"You must provide only one parameter for function {OperationName}");
             
-            return Exists(dataSource, token, parameters);
+            return Exists(dataSource, objectToApplyTo, parameters);
         }
 
         protected bool Exists(JToken dataSource, JToken token, IList<string> parameters)

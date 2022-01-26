@@ -1,6 +1,7 @@
 ﻿using JSLTSharp.JsonTransforms.Abstractions;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
 {
@@ -10,12 +11,12 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
         public virtual string OperationName => "ConcatString";
 
         /// <inheritdoc />
-        public virtual JToken Apply(JToken dataSource, JToken token, IList<string> parameters)
+        public virtual JToken Apply(JToken dataSource, JToken objectToApplyTo, IList<string> parameters)
         {
-            var result = "";
+            var result = new StringBuilder();
 
-            if (token.Type != JTokenType.Null && token.Type != JTokenType.None)
-                result += token.ToString();
+            if (objectToApplyTo.Type != JTokenType.Null && objectToApplyTo.Type != JTokenType.None)
+                result.Append(objectToApplyTo.ToString());
 
             foreach (string parameter in parameters) 
             {
@@ -26,7 +27,7 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
                         var foundToken = dataSource.SelectToken(parameter);
 
                         if (foundToken.Type != JTokenType.Null && foundToken.Type != JTokenType.None)
-                            result += foundToken.ToString();
+                            result.Append(foundToken.ToString());
                     }
                     catch
                     { 
@@ -35,11 +36,11 @@ namespace JSLTSharp.JsonTransforms.EmbededFunctions.ValueTransformations
                 } 
                 else
                 {
-                    result += parameter;
+                    result.Append(parameter);
                 }
             }
 
-            return result;
+            return result.ToString();
         }
     }
 }
