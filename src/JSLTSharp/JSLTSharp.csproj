@@ -1,8 +1,10 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <ProjectGuid>{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}</ProjectGuid>
-    <TargetFramework>netstandard2.1</TargetFramework>
+	<ProjectGuid>{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}</ProjectGuid>
+	<TargetFrameworks>netstandard2.1;net6.0;net7.0</TargetFrameworks>
+	<Preview>true</Preview>
+	<LangVersion>preview</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>MACK Mathieu</Authors>
     <Copyright>Copyright (c) MACK Mathieu</Copyright>
