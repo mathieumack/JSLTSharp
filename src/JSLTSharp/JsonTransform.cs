@@ -101,10 +101,10 @@ namespace JSLTSharp
 
                             var functionName = splitFunctions[i][..functionI];
 
-                            if (conditionalOperations.TryGetValue(functionName, out var customOperation))
+                            if (conditionalOperations.TryGetValue(functionName, out var conditionalOperation))
                             {
                                 var functionParameters = splitFunctions[i].Substring(functionI + 1, splitFunctions[i].Length - functionI - 2);
-                                functionsSuccess &= customOperation.Apply(dataSource, currentProp.Value, functionParameters.Split(','));
+                                functionsSuccess &= conditionalOperation.Apply(dataSource, currentProp.Value, functionParameters.Split(','));
                             }
                             else
                                 functionsSuccess = false;
@@ -143,10 +143,10 @@ namespace JSLTSharp
                                             throw new InvalidOperationException($"Function {splitFunctions[i]} is not correctly formatted");
 
                                         var functionName = splitFunctions[i][..functionI];
-                                        if (conditionalOperations.TryGetValue(functionName, out var customOperation))
+                                        if (conditionalOperations.TryGetValue(functionName, out var conditionalOperation))
                                         {
                                             var functionParameters = splitFunctions[i].Substring(functionI + 1, splitFunctions[i].Length - functionI - 2);
-                                            subFunctionsSuccess &= customOperation.Apply(dataSource, currentProp.Value, functionParameters.Split(','));
+                                            subFunctionsSuccess &= conditionalOperation.Apply(dataSource, currentProp.Value, functionParameters.Split(','));
                                         }
                                         else
                                             subFunctionsSuccess = false;
@@ -349,7 +349,7 @@ namespace JSLTSharp
                     break;
                 case JTokenType.Array:
                     var array = transformation.Value<JArray>();
-                    var arrayChildren = array.Children().ToList();
+                    var arrayChildren = array.Children().ToArray();
                     arrayChildren.AsParallel().AsOrdered().ForAll(item =>
                     {
                         ApplyTransformation(item, dataSource);
@@ -414,13 +414,8 @@ namespace JSLTSharp
                                 currentToken = JValue.FromObject(string.Empty);
                             break;
                         case "ifnotnullandempty":
-                            bool toRemove = false;
-
                             if (currentToken.Type == JTokenType.Null ||
                                 (currentToken.Type == JTokenType.String && string.IsNullOrEmpty(currentToken.Value<string>())))
-                                toRemove = true;
-
-                            if (toRemove)
                             {
                                 currentToken = JValue.CreateNull();
                                 currentProp.Remove();
