@@ -55,12 +55,10 @@ namespace JSLTSharp
             // TODO : Add support of functions :
             var result = JToken.Parse(jsonTransformationDescription);
 
-            if (result is JObject or JArray)
+            if (result is JObject)
                 ApplyTransformation(result, jsonContent);
             else if (result is JArray)
-            {
                 ApplyTransformation(((JArray)result)[0], jsonContent);
-            }
 
             return result;
         }
