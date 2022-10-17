@@ -3,6 +3,7 @@ using JSLTSharp.JsonTransforms.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics.CodeAnalysis;
 
 namespace JSLTSharp.Tests
 {
@@ -33,7 +34,9 @@ namespace JSLTSharp.Tests
         /// <param name="jsonContent"></param>
         /// <param name="transformation"></param>
         /// <param name="expected"></param>
-        public void TestJsonTransformation(string jsonContent, string transformation, string expected)
+        public void TestJsonTransformation([StringSyntax(StringSyntaxAttribute.Json)] string jsonContent,
+                                            [StringSyntax(StringSyntaxAttribute.Json)] string transformation,
+                                            [StringSyntax(StringSyntaxAttribute.Json)] string expected)
         {
             var flow = ServiceCollectionInitializer();
 
