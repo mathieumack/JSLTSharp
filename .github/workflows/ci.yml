@@ -58,8 +58,7 @@ jobs:
     - uses: actions/upload-artifact@v3
       with:
         name: nuget-artifact
-        path: '**.nupkg'
-      working-directory: src
+        path: src/**.nupkg
     # Publish a new version only for new features :
     - name: Push Package to NuGet.org
       if: startswith(github.ref,'refs/heads/feature') || startswith(github.head_ref,'refs/heads/feature')
