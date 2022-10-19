@@ -12,7 +12,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v2    
+    # Show informations :
+    - name: Show github context github ref
+      run: echo ${{ github.ref }}
+    - name: Show github context github head_ref
+      run: echo ${{ github.head_ref }}
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
