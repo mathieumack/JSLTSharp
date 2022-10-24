@@ -4,6 +4,7 @@
 	<ProjectGuid>{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}</ProjectGuid>
 	<TargetFrameworks>netstandard2.1;net6.0;net7.0</TargetFrameworks>
 	<Preview>true</Preview>
+  <PackageReadmeFile>README.md</PackageReadmeFile>
 	<LangVersion>preview</LangVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>MACK Mathieu</Authors>
@@ -15,6 +16,10 @@
 	<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	<CodeAnalysisRuleSet>..\.sonarlint\mathieumack_jsltsharpcsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="..\.sonarlint\mathieumack_jsltsharp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
