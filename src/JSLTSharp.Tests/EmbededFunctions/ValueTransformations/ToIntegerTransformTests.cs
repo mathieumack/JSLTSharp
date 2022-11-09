@@ -8,21 +8,28 @@ namespace JSLTSharp.Tests.Transforms
         [TestMethod]
         public void TestValidResult()
         {
-            TestJsonTransformation(@"{
-                                        'float': 13246.51,
-                                        'bool': true, 
-                                        'string': '123456789'
-                                    }",
-                                    @"{
-                                        'float': '$.float->ToInteger()',
-                                        'bool': '$.bool->ToInteger()', 
-                                        'string': '$.string->ToInteger()'
-                                    }",
-                                    @"{
-                                        'float': 13246,
-                                        'bool': 1, 
-                                        'string': 123456789
-                                    }");
+            TestJsonTransformation("""
+                                    {
+                                        "float": 13246.51,
+                                        "bool": true,
+                                        "string": '123456789'
+                                    }
+                                    """,
+                                    """
+                                    {
+                                        "float": "$.float->ToInteger()",
+                                        "bool": "$.bool->ToInteger()",
+                                        "string": "$.string->ToInteger()"
+                                    }
+
+                                    """,
+                                    """
+                                    {
+                                        "float": 13246,
+                                        "bool": 1,
+                                        "string": 123456789
+                                    }
+                                    """);
         }
     }
 }

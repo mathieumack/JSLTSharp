@@ -16,8 +16,8 @@ namespace JSLTSharp
         /// </summary>
         public SkipJsonNullValues SkipJsonNull { get; set; } = SkipJsonNullValues.None;
 
-        private readonly IEnumerable<IJsonTransformConditionalCustomOperation> conditionalOperations;
-        private readonly IEnumerable<IJsonTransformCustomOperation> customOperations;
+        private readonly Dictionary<string, IJsonTransformConditionalCustomOperation> conditionalOperations;
+        private readonly Dictionary<string, IJsonTransformCustomOperation> customOperations;
 
         public JsonTransform()
             : this(new List<IJsonTransformConditionalCustomOperation>(),
@@ -33,17 +33,17 @@ namespace JSLTSharp
         public JsonTransform(IEnumerable<IJsonTransformConditionalCustomOperation> conditionalOperations,
                                 IEnumerable<IJsonTransformCustomOperation> customOperations)
         {
-            this.conditionalOperations = conditionalOperations;
-            this.customOperations = customOperations;
+            this.conditionalOperations = conditionalOperations.ToDictionary(e => e.OperationName, e => e, StringComparer.InvariantCultureIgnoreCase);
+            this.customOperations = customOperations.ToDictionary(e => e.OperationName, e => e, StringComparer.InvariantCultureIgnoreCase);
         }
 
         public string Transform(string jsonContent, string jsonTransformationDescription)
         {
             // Read, transform to JToken, serialize output :
             var jtokenContent = JToken.Parse(jsonContent);
-            
+
             var result = Transform(jtokenContent, jsonTransformationDescription);
-            
+
             return result.ToString();
         }
 
@@ -55,12 +55,10 @@ namespace JSLTSharp
             // TODO : Add support of functions :
             var result = JToken.Parse(jsonTransformationDescription);
 
-            if(result is JObject)
+            if (result is JObject)
                 ApplyTransformation(result, jsonContent);
-            else if(result is JArray)
-            {
+            else if (result is JArray)
                 ApplyTransformation(((JArray)result)[0], jsonContent);
-            }
 
             return result;
         }
@@ -102,12 +100,12 @@ namespace JSLTSharp
                                 throw new InvalidOperationException($"Function {splitFunctions[i]} is not correctly formatted");
 
                             var functionName = splitFunctions[i][..functionI];
-                            var functionParameters = splitFunctions[i].Substring(functionI + 1, splitFunctions[i].Length - functionI - 2);
 
-                            List<string> parameterValues = functionParameters.Split(',').ToList();
-                            var customOperation = conditionalOperations.FirstOrDefault(e => functionName.Equals(e.OperationName, StringComparison.InvariantCultureIgnoreCase));
-                            if (customOperation != null)
-                                functionsSuccess &= customOperation.Apply(dataSource, currentProp.Value, parameterValues);
+                            if (conditionalOperations.TryGetValue(functionName, out var conditionalOperation))
+                            {
+                                var functionParameters = splitFunctions[i].Substring(functionI + 1, splitFunctions[i].Length - functionI - 2);
+                                functionsSuccess &= conditionalOperation.Apply(dataSource, currentProp.Value, functionParameters.Split(','));
+                            }
                             else
                                 functionsSuccess = false;
                         }
@@ -121,7 +119,7 @@ namespace JSLTSharp
                             }
                             currentProp.AddBeforeSelf(currentObject1.Properties().Where(e => !e.Name.StartsWith("->elseif(")));
                         }
-                        else if(currentObject1 != null)
+                        else if (currentObject1 != null)
                         {
                             // Function failed, we will check else/elseif operations :
                             var elseIfProperties = currentObject1.Properties().Where(e => e.Name.StartsWith("->elseif(")).ToList();
@@ -145,12 +143,11 @@ namespace JSLTSharp
                                             throw new InvalidOperationException($"Function {splitFunctions[i]} is not correctly formatted");
 
                                         var functionName = splitFunctions[i][..functionI];
-                                        var functionParameters = splitFunctions[i].Substring(functionI + 1, splitFunctions[i].Length - functionI - 2);
-
-                                        List<string> parameterValues = functionParameters.Split(',').ToList();
-                                        var customOperation = conditionalOperations.FirstOrDefault(e => functionName.Equals(e.OperationName, StringComparison.InvariantCultureIgnoreCase));
-                                        if (customOperation != null)
-                                            subFunctionsSuccess &= customOperation.Apply(dataSource, currentProp.Value, parameterValues);
+                                        if (conditionalOperations.TryGetValue(functionName, out var conditionalOperation))
+                                        {
+                                            var functionParameters = splitFunctions[i].Substring(functionI + 1, splitFunctions[i].Length - functionI - 2);
+                                            subFunctionsSuccess &= conditionalOperation.Apply(dataSource, currentProp.Value, functionParameters.Split(','));
+                                        }
                                         else
                                             subFunctionsSuccess = false;
                                     }
@@ -175,7 +172,7 @@ namespace JSLTSharp
                                 elseIfProperties[pi].Remove();
                             }
                         }
-                        
+
                         // we reset the original property also
                         currentProp = transformation.Value<JProperty>();
                         currentProp.Remove();
@@ -217,21 +214,20 @@ namespace JSLTSharp
 
                                 var functionName = split[i][..functionJ];
                                 var functionParameters = split[i].Substring(functionJ + 1, split[i].Length - functionJ - 2);
-
                                 List<string> parameterValues = functionParameters.Split(',').ToList();
 
                                 if (functionName.Equals("loop"))
                                 {
                                     var model = currentProp.Value<JProperty>().Value;
 
-                                    ConcurrentBag<JToken> models = new ConcurrentBag<JToken>();
+                                    ConcurrentBag<JToken> models = new();
 
                                     arrayToken.AsParallel().ForAll(item =>
                                     {
                                         models.Add(model.DeepClone());
                                     });
 
-                                    JArray resultArray = new JArray();
+                                    JArray resultArray = new();
                                     foreach (var item in arrayToken)
                                     {
                                         models.TryTake(out JToken entry);
@@ -240,7 +236,7 @@ namespace JSLTSharp
                                         (dataSource as JObject).Add(new JProperty(parameterValues[0], item));
 
                                         // Apply transformation :
-                                        if(entry.Type == JTokenType.String)
+                                        if (entry.Type == JTokenType.String)
                                         {
                                             JToken tokenEntry = ApplyTransformationOnEntry(dataSource, null, entry as JValue);
                                             resultArray.Add(tokenEntry);
@@ -258,8 +254,7 @@ namespace JSLTSharp
                                 }
                                 else
                                 {
-                                    var customOperation = customOperations.FirstOrDefault(e => functionName.Equals(e.OperationName, StringComparison.InvariantCultureIgnoreCase));
-                                    if (customOperation != null)
+                                    if (customOperations.TryGetValue(functionName, out var customOperation))
                                     {
                                         arrayToken = customOperation.Apply(dataSource, arrayToken, parameterValues);
                                     }
@@ -332,14 +327,11 @@ namespace JSLTSharp
                                 throw new InvalidOperationException($"Loop function {split[i]} is not correctly formatted");
 
                             var functionName = split[i][..functionI];
-                            var functionParameters = split[i].Substring(functionI + 1, split[i].Length - functionI - 2);
 
-                            List<string> parameterValues = functionParameters.Split(',').ToList();
-
-                            var customOperation = conditionalOperations.FirstOrDefault(e => functionName.Equals(e.OperationName, StringComparison.InvariantCultureIgnoreCase));
-                            if (customOperation != null)
+                            if (conditionalOperations.TryGetValue(functionName, out var conditionalOperation))
                             {
-                                successOperation = customOperation.Apply(dataSource, currentProp.Value, parameterValues);
+                                var functionParameters = split[i].Substring(functionI + 1, split[i].Length - functionI - 2);
+                                successOperation = conditionalOperation.Apply(dataSource, currentProp.Value, functionParameters.Split(','));
                             }
                             else
                                 successOperation = false;
@@ -357,7 +349,7 @@ namespace JSLTSharp
                     break;
                 case JTokenType.Array:
                     var array = transformation.Value<JArray>();
-                    var arrayChildren = array.Children().ToList();
+                    var arrayChildren = array.Children().ToArray();
                     arrayChildren.AsParallel().AsOrdered().ForAll(item =>
                     {
                         ApplyTransformation(item, dataSource);
@@ -381,7 +373,7 @@ namespace JSLTSharp
             var split = stringValue.Split("->");
             var fieldName = split[0];
 
-            JToken token = null;
+            JToken token;
             if (string.IsNullOrWhiteSpace(fieldName))
                 token = JValue.CreateNull();// We simulate a null token
             else if (fieldName.StartsWith("$.") || fieldName.StartsWith("["))
@@ -406,37 +398,31 @@ namespace JSLTSharp
                 var functionName = split[i][..functionI];
                 var functionParameters = split[i].Substring(functionI + 1, split[i].Length - functionI - 2);
 
-                List<string> parameterValues = functionParameters.Split(',').ToList();
+                var parameterValues = functionParameters.Split(',');
 
-                    var customOperation = customOperations.FirstOrDefault(e => functionName.Equals(e.OperationName, StringComparison.InvariantCultureIgnoreCase));
-                    if (customOperation != null)
+                if (customOperations.TryGetValue(functionName, out var customOperation))
+                {
+                    currentToken = customOperation.Apply(dataSource, currentToken, parameterValues);
+                }
+                else
+                {
+                    switch (functionName.ToLower())
                     {
-                        currentToken = customOperation.Apply(dataSource, currentToken, parameterValues);
-                    }
-                    else
-                    {
-                        switch (functionName.ToLower())
-                        {
-                            case "defaultstring":
-                                if (currentToken.Type == JTokenType.Null ||
-                                    (currentToken.Type == JTokenType.String && string.IsNullOrEmpty(currentToken.Value<string>())))
-                                    currentToken = JValue.FromObject(string.Empty);
-                                break;
-                            case "ifnotnullandempty":
-                                bool toRemove = false;
-
-                                if (currentToken.Type == JTokenType.Null ||
-                                    (currentToken.Type == JTokenType.String && string.IsNullOrEmpty(currentToken.Value<string>())))
-                                    toRemove = true;
-
-                            if (toRemove)
+                        case "defaultstring":
+                            if (currentToken.Type == JTokenType.Null ||
+                                (currentToken.Type == JTokenType.String && string.IsNullOrEmpty(currentToken.Value<string>())))
+                                currentToken = JValue.FromObject(string.Empty);
+                            break;
+                        case "ifnotnullandempty":
+                            if (currentToken.Type == JTokenType.Null ||
+                                (currentToken.Type == JTokenType.String && string.IsNullOrEmpty(currentToken.Value<string>())))
                             {
                                 currentToken = JValue.CreateNull();
                                 currentProp.Remove();
                             }
                             break;
                         case "ifexists":
-                            if (parameterValues.Count != 1)
+                            if (parameterValues.Length != 1)
                                 throw new InvalidOperationException($"You must provide only one parameter for function {function}");
 
                             var selectTokenForIf = dataSource.SelectTokens(parameterValues[0]);

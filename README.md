@@ -6,11 +6,6 @@ I've also created this package as the excellent [https://github.com/WorkMaze/JUS
 
 ==========
 
-# IC
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mathieumack_JSLTSharp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mathieumack_JSLTSharp)
-[![Build status](https://dev.azure.com/mackmathieu/Github/_apis/build/status/JSLTSharp)](https://dev.azure.com/mackmathieu/Github/_build/latest?definitionId=27)
-[![NuGet package](https://buildstats.info/nuget/JSLTSharp?includePreReleases=true)](https://nuget.org/packages/JSLTSharp)
-
 # Onboarding Instructions 
 
 ## Installation
@@ -62,6 +57,11 @@ $.field1 refers to to the property named field1 on the json input.
 # Create my own function
 
 The package can be extended by using your own functions. Code your own C# function, and register it on the service collection of your application. More details on the Wiki.
+
+# IC
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mathieumack_JSLTSharp&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=mathieumack_JSLTSharp)
+[![.NET](https://github.com/mathieumack/JSLTSharp/actions/workflows/ci.yml/badge.svg)](https://github.com/mathieumack/JSLTSharp/actions/workflows/ci.yml)
+[![NuGet package](https://buildstats.info/nuget/JSLTSharp?includePreReleases=true)](https://nuget.org/packages/JSLTSharp)
 
 # Documentation : I want more
 
