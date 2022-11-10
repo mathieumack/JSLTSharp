@@ -10,7 +10,7 @@ on:
         publishToNuget:
           description: 'Publish to nuget'
           required: true
-          default: false
+          default: true
           type: boolean
 
 jobs:
