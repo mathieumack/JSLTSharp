@@ -34,10 +34,11 @@ namespace JSLTSharp.Tests.Transforms
         }
 
         [TestMethod]
-        [ExpectedException(typeof(JsonReaderException))]
         public void TestString_WithUpperCase()
         {
-            TestJsonTransformation(@"{
+            Assert.Throws<JsonReaderException>(() =>
+            {
+                TestJsonTransformation(@"{
                                         'bool': False
                                     }",
                                     @"{
@@ -46,6 +47,7 @@ namespace JSLTSharp.Tests.Transforms
                                     @"{
                                         'bool': false
                                     }");
+            });
         }
 
         [TestMethod]

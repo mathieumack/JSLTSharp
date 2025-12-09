@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<ProjectGuid>{7E99DD47-E2FE-4ABE-8481-3B3FE758C7D4}</ProjectGuid>
-	<TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+	<TargetFrameworks>net9.0;net10.0</TargetFrameworks>
 	<Preview>true</Preview>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<LangVersion>preview</LangVersion>
@@ -21,18 +21,9 @@
     <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="..\.sonarlint\mathieumack_jsltsharp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-  </ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)' != 'net7.0'">
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
-	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.1" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
 </Project>
