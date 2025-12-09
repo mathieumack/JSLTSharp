@@ -20,6 +20,7 @@ jobs:
       publishToNuget: ${{ github.event.inputs.publishToNuget == true }}
       dotnet-version: |
         9.0.x
+        10.0.x
     secrets:
       NUGETPACKAGEIDENTIFIER: ${{ secrets.NUGETPACKAGEIDENTIFIER }}
       NUGETAPIKEY: ${{ secrets.NUGETAPIKEY }}

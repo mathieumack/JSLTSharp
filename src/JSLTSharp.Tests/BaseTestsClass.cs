@@ -3,6 +3,7 @@ using JSLTSharp.JsonTransforms.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace JSLTSharp.Tests
